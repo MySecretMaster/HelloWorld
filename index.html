@@ -62,9 +62,12 @@
   <div class="demo"></div>
 
   <div class="setup-open">
-    <img src="./img/user-1.jpg" class="setup-open-icon">
+    <img src="./img/user-1.jpg" class="setup-open-icon" tabindex="0">
   </div>
 </header>
+
+<button class="user-entrance-button">Войти</button>
+<button class="user-registr-button">Зарегистрироваться</button>
 
 <div class="overlay setup hidden">
   <form class="setup-wizard-form"
@@ -76,16 +79,17 @@
       <div class="setup-user">
         <div class="upload">
           <img class="setup-user-pic" src="./img/user-1.jpg"/>
-          <input type="file" name="avatar">
+          <input class="setup-user-pic-field" type="file" name="avatar">
         </div>
         <label>
           <input type="text" name="username"
-                 maxlength="25" required
+                 required
+				 pattern="[A-Za-zА-Яа-яЁё0-9\s]{2,22}"
                  class="setup-user-name" value="Синий Пендальф"/>
         </label>
       </div>
 
-      <span class="setup-close">&times;</span>
+      <span class="setup-close" tabindex="0">&times;</span>
     </div>
 
 
@@ -154,9 +158,26 @@
         <div class="setup-similar-list"><!--Список похожих персонажей--></div>
       </div>
 
-      <button class="button setup-submit">Сохранить</button>
+      <button class="button setup-submit" type="submit" method="get">Сохранить</button>
     </div>
   </form>
+</div>
+
+<div class="overlay setup hidden entrance-form">
+	<form method="post">
+		<input type="text" placeholder="логин">
+		<input type="password" placeholder="пароль">
+		<button type="submit" class="button setup-submit" action="">Войти</button>
+	</form>
+</div>
+
+<div class="overlay setup hidden registr-form">
+	<form method="post">
+		<input id="login-registr" type="text" placeholder="логин" value="">
+		<input id="password-registr" type="password" placeholder="пароль">
+		<!--<input type="password" placeholder="повторите пароль">-->
+		<button type="submit" class="button setup-submit" action="">Зарегистрироваться</button>
+	</form>
 </div>
 
 <footer>
@@ -208,6 +229,27 @@
 <script src="js/stat.js"></script>
 <script src="js/game.js"></script>
 <script src="js/setup.js"></script>
+<script src="js/dialog.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.."></script> 
+<script type="text/javascript">
+
+	function funcSucsecc (data){ 
+		$("#inform").text (data); 
+	} 
+	$(document).ready (function () { 
+		$("#bt").bind("click", function () { 
+			var loginValue = $("#login-registr").val(); 
+			var passwordValue = $("#password-registr").val(); 
+			$.ajax({ 
+				url: 'hello', 
+				type: 'post', // This is the default though, you don't actually need to always mention it 
+				data: ({login: loginValue, password: passwordValue}), 
+				dataType: "html", 
+				success: funcSucsecc 
+			}); 
+		}); 
+	}); 
+</script>
 
 </body>
 </html>
